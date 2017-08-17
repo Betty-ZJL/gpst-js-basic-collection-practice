@@ -1,25 +1,25 @@
 'use strict';
 
 function find(collection, ch) {
-    for (let item of collection) {
+    let result = null;
+    collection.forEach(function (item) {
         if (item.key === ch) {
-            return item;
+            result = item;
         }
-    }
-
-    return null;
+    });
+    return result;
 }
 
 function summarize(collection) {
     let result = [];
-    for (let item of collection) {
+    collection.forEach(function (item) {
         let obj = find(result, item)
         if (obj) {
             obj.count++;
         } else {
             result.push({key: item, count: 1});
         }
-    }
+    });
     return result;
 }
 
@@ -29,44 +29,40 @@ function split(item) {
 }
 
 function push(result, key, count) {
-    for (var i = 0; i < count; i++) {
+    while ((count--) > 0)
         result.push(key);
-    }
 }
 
 function expand(collection) {
     let result = [];
-    for (let item of collection) {
+    collection.forEach(function (item) {
         if (item.length === 1) {
             result.push(item);
         } else {
             let {key, count} = split(item);
             push(result, key, count);
         }
-    }
+    });
     return result;
 }
 
 function includes(collection, ch) {
-    for (let item of collection) {
-        if (item === ch) {
-            return true;
-        }
-    }
-
-    return false;
+    if (collection.includes(ch))
+        return true;
+    else
+        return false;
 }
 
 function discount(collection, promotionItems) {
     let result = [];
-    for (let item of collection) {
+    collection.forEach(function (item) {
         let key = item.key;
         let count = item.count;
         if (includes(promotionItems, key)) {
             count = count - Math.floor(count / 3);
         }
         result.push({key, count});
-    }
+    });
     return result;
 }
 
